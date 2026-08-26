@@ -1,4 +1,4 @@
-# analisis-cartera-creditos-fintech
+
 # Análisis de Cartera de Créditos — Fintech de Préstamos Personales
 
 ## 📌 Contexto y Problema de Negocio
