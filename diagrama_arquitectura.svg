@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="640" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="600" y="42" text-anchor="middle" fill="#1a1a2e" font-size="22" font-weight="600">Arquitectura del Proyecto</text>
+
+  <!-- CRM/ERP box -->
+  <rect x="40" y="260" width="170" height="100" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- building/org icon -->
+  <g transform="translate(60,272)" stroke="#475569" stroke-width="1.6" fill="none" stroke-linejoin="round">
+    <rect x="0" y="6" width="16" height="18" fill="#e2e8f0"/>
+    <rect x="3" y="10" width="3" height="3" fill="#475569" stroke="none"/>
+    <rect x="10" y="10" width="3" height="3" fill="#475569" stroke="none"/>
+    <rect x="3" y="16" width="3" height="3" fill="#475569" stroke="none"/>
+    <rect x="10" y="16" width="3" height="3" fill="#475569" stroke="none"/>
+    <line x1="0" y1="24" x2="16" y2="24"/>
+  </g>
+  <text x="135" y="302" text-anchor="middle" fill="#1e293b" font-size="14" font-weight="600">CRM / ERP</text>
+  <text x="125" y="322" text-anchor="middle" fill="#64748b" font-size="11">Originación y</text>
+  <text x="125" y="336" text-anchor="middle" fill="#64748b" font-size="11">cobranzas</text>
+
+  <!-- BCRA API box -->
+  <rect x="40" y="110" width="170" height="90" rx="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <!-- plug/connection icon -->
+  <g transform="translate(58,122)" stroke="#b45309" stroke-width="1.8" fill="none" stroke-linecap="round">
+    <line x1="4" y1="0" x2="4" y2="6"/>
+    <line x1="12" y1="0" x2="12" y2="6"/>
+    <rect x="1" y="6" width="14" height="8" rx="2"/>
+    <line x1="8" y1="14" x2="8" y2="20"/>
+    <circle cx="8" cy="22" r="2"/>
+  </g>
+  <text x="135" y="148" text-anchor="middle" fill="#92400e" font-size="14" font-weight="600">API BCRA</text>
+  <text x="125" y="168" text-anchor="middle" fill="#a16207" font-size="11">Inflación mensual</text>
+  <text x="125" y="182" text-anchor="middle" fill="#a16207" font-size="11">(dato externo)</text>
+
+  <!-- Snowflake big box -->
+  <rect x="280" y="70" width="490" height="520" rx="18" fill="#f0f9ff" stroke="#29b5e8" stroke-width="2"/>
+
+  <!-- Snowflake icon (simplified) -->
+  <g transform="translate(310,88)">
+    <g stroke="#29b5e8" stroke-width="2.4" stroke-linecap="round">
+      <line x1="10" y1="0" x2="10" y2="20"/>
+      <line x1="0" y1="10" x2="20" y2="10"/>
+      <line x1="3" y1="3" x2="17" y2="17"/>
+      <line x1="17" y1="3" x2="3" y2="17"/>
+      <line x1="10" y1="0" x2="6" y2="4"/>
+      <line x1="10" y1="0" x2="14" y2="4"/>
+      <line x1="10" y1="20" x2="6" y2="16"/>
+      <line x1="10" y1="20" x2="14" y2="16"/>
+      <line x1="0" y1="10" x2="4" y2="6"/>
+      <line x1="0" y1="10" x2="4" y2="14"/>
+      <line x1="20" y1="10" x2="16" y2="6"/>
+      <line x1="20" y1="10" x2="16" y2="14"/>
+    </g>
+  </g>
+  <text x="345" y="107" fill="#0369a1" font-size="17" font-weight="700">Snowflake</text>
+  <text x="500" y="107" fill="#0284c7" font-size="11">Aterrizaje de datos + Data Warehouse</text>
+
+  <!-- RAW tables -->
+  <rect x="310" y="140" width="200" height="58" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="1.2"/>
+  <text x="410" y="163" text-anchor="middle" fill="#0c4a6e" font-size="12" font-weight="600">Tablas RAW</text>
+  <text x="410" y="180" text-anchor="middle" fill="#64748b" font-size="9.5">datos crudos, sin limpiar,</text>
+  <text x="410" y="192" text-anchor="middle" fill="#64748b" font-size="9.5">recién llegados del CRM/ERP</text>
+
+  <!-- Stream + Task -->
+  <rect x="530" y="140" width="220" height="58" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="1.2"/>
+  <text x="640" y="163" text-anchor="middle" fill="#0c4a6e" font-size="12" font-weight="600">Stream + Task</text>
+  <text x="640" y="181" text-anchor="middle" fill="#64748b" font-size="9.5">detecta datos nuevos y los</text>
+  <text x="640" y="193" text-anchor="middle" fill="#64748b" font-size="9.5">procesa automáticamente</text>
+
+  <!-- Clean tables -->
+  <rect x="310" y="212" width="200" height="46" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="1.2"/>
+  <text x="410" y="232" text-anchor="middle" fill="#0c4a6e" font-size="12" font-weight="600">Tablas limpias</text>
+  <text x="410" y="248" text-anchor="middle" fill="#64748b" font-size="10">originación / cobranzas</text>
+
+  <!-- BCRA table -->
+  <rect x="530" y="212" width="220" height="46" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.2"/>
+  <text x="640" y="232" text-anchor="middle" fill="#92400e" font-size="12" font-weight="600">bcra_indicadores</text>
+  <text x="640" y="248" text-anchor="middle" fill="#a16207" font-size="10">inflación mensual</text>
+
+  <!-- STAR SCHEMA MINI DRAWING (replaces the text-only box) -->
+  <rect x="310" y="278" width="440" height="230" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.4"/>
+  <text x="530" y="300" text-anchor="middle" fill="#166534" font-size="12.5" font-weight="700">Modelo Dimensional (Esquema Estrella)</text>
+
+  <!-- connecting lines -->
+  <g stroke="#86efac" stroke-width="1.6">
+    <line x1="530" y1="405" x2="530" y2="345"/>
+    <line x1="530" y1="405" x2="390" y2="440"/>
+    <line x1="530" y1="405" x2="670" y2="440"/>
+  </g>
+
+  <!-- center fact -->
+  <rect x="470" y="380" width="120" height="50" rx="8" fill="#166534"/>
+  <text x="530" y="401" text-anchor="middle" fill="#ffffff" font-size="9.5" font-weight="700">Tablas de Hechos</text>
+  <text x="530" y="415" text-anchor="middle" fill="#dcfce7" font-size="8">originación · pagos</text>
+
+  <!-- dim_tiempo top -->
+  <rect x="470" y="310" width="120" height="34" rx="7" fill="#ffffff" stroke="#22c55e" stroke-width="1.2"/>
+  <text x="530" y="331" text-anchor="middle" fill="#166534" font-size="9.5" font-weight="600">dim_tiempo</text>
+
+  <!-- dim_cliente bottom-left -->
+  <rect x="330" y="440" width="120" height="34" rx="7" fill="#ffffff" stroke="#22c55e" stroke-width="1.2"/>
+  <text x="390" y="461" text-anchor="middle" fill="#166534" font-size="9.5" font-weight="600">dim_cliente</text>
+
+  <!-- dim_credito bottom-right -->
+  <rect x="610" y="440" width="120" height="34" rx="7" fill="#ffffff" stroke="#22c55e" stroke-width="1.2"/>
+  <text x="670" y="461" text-anchor="middle" fill="#166534" font-size="9" font-weight="600">dim_credito</text>
+  <text x="670" y="472" text-anchor="middle" fill="#4d7c0f" font-size="6.5">(incluye segmento riesgo,</text>
+  <text x="670" y="480" text-anchor="middle" fill="#4d7c0f" font-size="6.5">canal originación, etc.)</text>
+
+  <!-- Vistas de hallazgos -->
+  <rect x="310" y="518" width="440" height="52" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.2"/>
+  <text x="530" y="541" text-anchor="middle" fill="#92400e" font-size="12" font-weight="600">Vistas de Hallazgos</text>
+  <text x="530" y="558" text-anchor="middle" fill="#a16207" font-size="10">Mora · Vintage/Cohortes · Rentabilidad Ajustada</text>
+
+  <!-- Power BI box -->
+  <rect x="820" y="150" width="230" height="300" rx="18" fill="#fffdf5" stroke="#f2c811" stroke-width="2"/>
+  <!-- bar chart icon representing Power BI -->
+  <g transform="translate(840,160)">
+    <rect x="0" y="10" width="6" height="14" fill="#f2c811"/>
+    <rect x="9" y="4" width="6" height="20" fill="#e6b800"/>
+    <rect x="18" y="14" width="6" height="10" fill="#f2c811"/>
+  </g>
+  <text x="945" y="182" text-anchor="middle" fill="#78350f" font-size="16" font-weight="700">Power BI</text>
+  <text x="935" y="200" text-anchor="middle" fill="#a16207" font-size="10.5">Modelo relacional +</text>
+  <text x="935" y="214" text-anchor="middle" fill="#a16207" font-size="10.5">Dashboard interactivo</text>
+
+  <rect x="840" y="230" width="190" height="38" rx="8" fill="#ffffff" stroke="#f2c811" stroke-width="1"/>
+  <text x="935" y="253" text-anchor="middle" fill="#57534e" font-size="10.5">Relaciones esquema estrella</text>
+
+  <rect x="840" y="278" width="190" height="34" rx="8" fill="#ffffff" stroke="#f2c811" stroke-width="1"/>
+  <text x="935" y="299" text-anchor="middle" fill="#57534e" font-size="10.5">Página: Mora General</text>
+
+  <rect x="840" y="320" width="190" height="34" rx="8" fill="#ffffff" stroke="#f2c811" stroke-width="1"/>
+  <text x="935" y="341" text-anchor="middle" fill="#57534e" font-size="10.5">Página: Vintage / Cohortes</text>
+
+  <rect x="840" y="362" width="190" height="30" rx="8" fill="#ffffff" stroke="#f2c811" stroke-width="1"/>
+  <text x="935" y="381" text-anchor="middle" fill="#57534e" font-size="9.5">Página: Rentabilidad Ajustada</text>
+
+  <!-- Arrows -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <line x1="210" y1="300" x2="280" y2="260" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="210" y1="155" x2="280" y2="185" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="770" y1="260" x2="820" y2="260" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+  <text x="935" y="475" text-anchor="middle" fill="#94a3b8" font-size="10.5">Documentado y publicado en GitHub</text>
+</svg>
