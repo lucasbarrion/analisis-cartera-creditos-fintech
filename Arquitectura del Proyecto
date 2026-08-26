@@ -7,7 +7,7 @@ El flujo de datos de este proyecto sigue tres grandes etapas:
 Snowflake cumple una doble función: es la base de datos donde aterrizan los datos crudos que genera el CRM/ERP de originación de créditos y cobranzas, 
 y al mismo tiempo es el Data Warehouse donde esos datos se limpian, transforman y modelan para el análisis.
 
-![Arquitectura del proyecto](imagenes/diagrama_arquitectura.svg)
+![Arquitectura del proyecto](diagrama_arquitectura.svg)
 
 ### Ingesta y actualización automática de datos
 
