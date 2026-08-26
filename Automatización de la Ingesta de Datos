@@ -1,0 +1,89 @@
+### Automatización de la ingesta (Streams + Tasks)
+
+Para que las tablas limpias se actualicen solas cada vez que llegan datos nuevos a las tablas de aterrizaje, se creó un **Stream** (que detecta automáticamente las filas nuevas o modificadas) sobre cada tabla `_raw`, y una **Task** programada que se ejecuta solo cuando el Stream tiene datos pendientes, aplicando todas las transformaciones de limpieza vistas arriba en el mismo paso:
+
+```sql
+CREATE STREAM originacion_creditos_raw_stream ON TABLE originacion_creditos_raw;
+
+CREATE TASK task_procesar_originacion
+  WAREHOUSE = COMPUTE_WH
+  SCHEDULE = '1 MINUTE'
+WHEN
+  SYSTEM$STREAM_HAS_DATA('originacion_creditos_raw_stream')
+AS
+MERGE INTO originacion_creditos AS destino
+USING originacion_creditos_raw_stream AS origen
+ON destino.loan_id = origen.loan_id
+WHEN MATCHED THEN
+  UPDATE SET
+    destino.cliente_id             = origen.cliente_id,
+    destino.fecha_solicitud        = origen.fecha_solicitud,
+    destino.monto_solicitado       = TRY_TO_DECIMAL(origen.monto_solicitado, 18, 2),
+    destino.plazo_meses            = TRY_TO_NUMBER(origen.plazo_meses),
+    destino.tasa_nominal_anual     = TRY_TO_DECIMAL(origen.tasa_nominal_anual, 5, 2),
+    destino.canal_originacion      = origen.canal_originacion,
+    destino.provincia              = origen.provincia,
+    destino.edad_cliente           = TRY_TO_NUMBER(origen.edad_cliente),
+    destino.segmento_riesgo        = origen.segmento_riesgo,
+    destino.estado_solicitud       = origen.estado_solicitud,
+    destino.ingreso_declarado_ars  = TRY_TO_DECIMAL(origen.ingreso_declarado_ars, 18, 2)
+WHEN NOT MATCHED THEN
+  INSERT (loan_id, cliente_id, fecha_solicitud, monto_solicitado, plazo_meses,
+          tasa_nominal_anual, canal_originacion, provincia, edad_cliente,
+          segmento_riesgo, estado_solicitud, ingreso_declarado_ars)
+  VALUES (origen.loan_id, origen.cliente_id, origen.fecha_solicitud, TRY_TO_DECIMAL(origen.monto_solicitado, 18, 2),
+          TRY_TO_NUMBER(origen.plazo_meses), TRY_TO_DECIMAL(origen.tasa_nominal_anual, 5, 2),
+          origen.canal_originacion, origen.provincia, TRY_TO_NUMBER(origen.edad_cliente),
+          origen.segmento_riesgo, origen.estado_solicitud, TRY_TO_DECIMAL(origen.ingreso_declarado_ars, 18, 2));
+
+ALTER TASK task_procesar_originacion RESUME;
+```
+
+El mismo patrón se replica para la tabla de cobranzas, sumando además el cálculo de `dias_atraso` y las columnas de control (`monto_pagado_inconsistente`, `es_cuota_futura`) vistas en las secciones anteriores:
+
+```sql
+CREATE STREAM cobranzas_pagos_raw_stream ON TABLE cobranzas_pagos_raw;
+
+CREATE TASK task_procesar_cobranzas
+  WAREHOUSE = COMPUTE_WH
+  SCHEDULE = '1 MINUTE'
+WHEN
+  SYSTEM$STREAM_HAS_DATA('cobranzas_pagos_raw_stream')
+AS
+MERGE INTO cobranzas_pagos AS destino
+USING cobranzas_pagos_raw_stream AS origen
+ON destino.pago_id = origen.pago_id
+WHEN MATCHED THEN
+  UPDATE SET
+    destino.loan_id             = origen.loan_id,
+    destino.n_cuota             = TRY_TO_NUMBER(origen.n_cuota),
+    destino.fecha_vencimiento   = origen.fecha_vencimiento,
+    destino.monto_cuota         = TRY_TO_DECIMAL(origen.monto_cuota, 18, 2),
+    destino.fecha_pago          = origen.fecha_pago,
+    destino.monto_pagado        = ABS(TRY_TO_DECIMAL(origen.monto_pagado, 18, 2)),
+    destino.dias_atraso         = CASE
+                                     WHEN origen.fecha_pago IS NULL THEN NULL
+                                     WHEN DATEDIFF(DAY, origen.fecha_vencimiento, origen.fecha_pago) < 0 THEN 0
+                                     ELSE DATEDIFF(DAY, origen.fecha_vencimiento, origen.fecha_pago)
+                                   END,
+    destino.monto_pagado_inconsistente = IFF(TRY_TO_DECIMAL(origen.monto_pagado, 18, 2) < 0, TRUE, FALSE),
+    destino.es_cuota_futura     = IFF(origen.fecha_vencimiento > CURRENT_DATE(), TRUE, FALSE)
+WHEN NOT MATCHED THEN
+  INSERT (pago_id, loan_id, n_cuota, fecha_vencimiento, monto_cuota, fecha_pago, monto_pagado,
+          dias_atraso, monto_pagado_inconsistente, es_cuota_futura)
+  VALUES (
+    origen.pago_id, origen.loan_id, TRY_TO_NUMBER(origen.n_cuota), origen.fecha_vencimiento,
+    TRY_TO_DECIMAL(origen.monto_cuota, 18, 2), origen.fecha_pago, ABS(TRY_TO_DECIMAL(origen.monto_pagado, 18, 2)),
+    CASE
+      WHEN origen.fecha_pago IS NULL THEN NULL
+      WHEN DATEDIFF(DAY, origen.fecha_vencimiento, origen.fecha_pago) < 0 THEN 0
+      ELSE DATEDIFF(DAY, origen.fecha_vencimiento, origen.fecha_pago)
+    END,
+    IFF(TRY_TO_DECIMAL(origen.monto_pagado, 18, 2) < 0, TRUE, FALSE),
+    IFF(origen.fecha_vencimiento > CURRENT_DATE(), TRUE, FALSE)
+  );
+
+ALTER TASK task_procesar_cobranzas RESUME;
+```
+
+Ambas Tasks corren cada 1 minuto, pero solo ejecutan trabajo real cuando `SYSTEM$STREAM_HAS_DATA(...)` confirma que hay filas nuevas esperando — evitando procesamiento innecesario cuando no hay novedades.
