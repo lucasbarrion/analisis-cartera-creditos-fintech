@@ -19,11 +19,9 @@ JOIN originacion_creditos AS o
 WHERE COALESCE(c.es_cuota_futura, FALSE) = FALSE
   AND COALESCE(c.monto_pagado_inconsistente, FALSE) = FALSE
 GROUP BY o.segmento_riesgo;
+
 ```
-
-**Resultado:**
-
-*(agregar captura del resultado de la vista acá)*
+![Resultado Hallazgo 1](hallazgo1_resultado.png)
 
 ---
 
@@ -49,9 +47,7 @@ GROUP BY DATE_TRUNC('MONTH', o.fecha_solicitud)
 ORDER BY cohorte;
 ```
 
-**Resultado:**
-
-*(agregar captura del resultado de la vista acá)*
+![Resultado Hallazgo 1](hallazgo2_resultado.png)
 
 ---
 
@@ -105,7 +101,4 @@ FROM totales_por_credito AS t
 JOIN originacion_creditos AS o
     ON t.loan_id = o.loan_id;
 ```
-
-**Resultado:**
-
-*(agregar captura del resultado de la vista acá)*
+![Resultado Hallazgo 1](hallazgo3_resultado.png)
