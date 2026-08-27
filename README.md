@@ -22,3 +22,13 @@ sin depender de reportes manuales ni de procesos que haya que rehacer cada vez q
 
 A partir de ese Data Warehouse, el proyecto construye además un tablero de Business Intelligence que responde de forma visual e interactiva a las preguntas de negocio definidas junto a la empresa:
 cómo se comporta la mora según el segmento de riesgo del cliente, cómo evoluciona la mora a medida que maduran los créditos, y cuál es la rentabilidad real de la cartera una vez ajustada por inflación.
+
+
+
+🛠️ Stack Tecnológico
+Snowflake: Data Warehouse en la nube — aterrizaje de datos (tablas RAW), limpieza y transformación, modelado dimensional (esquema estrella) y automatización de ingesta mediante Streams y Tasks.
+SQL: lenguaje utilizado para toda la limpieza de datos, transformaciones, creación de vistas de negocio y modelado dimensional dentro de Snowflake.
+Power BI: modelado relacional (relaciones del esquema estrella) y construcción del dashboard interactivo con las 3 páginas de análisis.
+DAX: medidas utilizadas en Power BI para el cálculo de KPIs (% de mora, rentabilidad real, totales ajustados, etc.).
+API BCRA: fuente de datos externa utilizada para incorporar el índice de inflación mensual y así poder calcular la rentabilidad real ajustada de la cartera.
+GitHub: control de versiones y publicación de la documentación del proyecto.
